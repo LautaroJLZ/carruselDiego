@@ -1,6 +1,121 @@
-<div style="height: 100%; width: 100%;">
-  <img
-    src="https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg"
-    alt="foto"
-  />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrusel de Imágenes</title>
+<style>
+    /* Fondo de la página */
+    body {
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* Estilos del contenedor del carrusel */
+    .carousel-container {
+        width: 100%;
+        max-width: 800px; /* Aumenta el ancho máximo del carrusel */
+        margin: auto;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Estilos de las imágenes y del carrusel */
+    .carousel-slide {
+        display: flex;
+        transition: transform 0.5s ease;
+        gap: 10px; /* Agrega un espacio entre las imágenes */
+    }
+
+    .carousel-slide img {
+        width: calc(50% - 5px); /* Ajusta el ancho para tener en cuenta el margen */
+        height: auto;
+        aspect-ratio: 1 / 1; /* Mantiene la relación de aspecto 1:1 */
+        border-radius: 10px;
+    }
+
+    /* Estilos de los botones */
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 50%; /* Hace el botón perfectamente redondo */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="carousel-container">
+    <!-- Contenedor del carrusel -->
+    <div class="carousel-slide" id="carouselSlide">
+        <!-- Lista de imágenes en el carrusel -->
+        <img src="images/1.png" alt="Imagen 1">
+        <img src="images/2.png" alt="Imagen 2">
+        <img src="images/3.png" alt="Imagen 3">
+        <img src="images/4.png" alt="Imagen 4">
+    </div>
+    <!-- Botones de navegación -->
+    <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
 </div>
+
+<script>
+    let currentIndex = 0;
+    const carouselSlide = document.getElementById('carouselSlide');
+    const images = document.querySelectorAll('.carousel-slide img');
+    const totalImages = images.length;
+
+    function updateSlidePosition() {
+        // Cambia la posición del carrusel según el índice actual
+        carouselSlide.style.transform = `translateX(-${(currentIndex * 50)}%)`; // Ajusta el desplazamiento al 50%
+    }
+
+    function moveSlide(direction) {
+        // Cambia el índice de la imagen actual
+        currentIndex += direction;
+
+        // Si es el inicio, salta al final; si es el final, salta al inicio
+        if (currentIndex < 0) {
+            currentIndex = totalImages / 2 - 1; // Ajusta para que se muestre la última imagen
+        } else if (currentIndex >= totalImages / 2) {
+            currentIndex = 0; // Ajusta para que se muestre la primera imagen
+        }
+
+        // Actualiza la posición del carrusel
+        updateSlidePosition();
+    }
+
+    // Reproducción automática del carrusel cada segundo
+    setInterval(() => {
+        moveSlide(1); // Mueve a la siguiente imagen automáticamente
+    }, 2000);
+</script>
+
+</body>
+</html>
