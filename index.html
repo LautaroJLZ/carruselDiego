@@ -92,34 +92,44 @@
 
 <script>
     let currentIndex = 0;
-    const carouselSlide = document.getElementById('carouselSlide');
-    const images = document.querySelectorAll('.carousel-slide img');
-    const totalImages = images.length;
+const carouselSlide = document.getElementById('carouselSlide');
+const images = document.querySelectorAll('.carousel-slide img');
+const totalImages = images.length;
 
-    function updateSlidePosition() {
-        // Cambia la posición del carrusel según el índice actual
-        carouselSlide.style.transform = `translateX(-${currentIndex * 100}%)`;
+let autoSlideInterval = setInterval(autoSlide, 5000); // Configura el intervalo automático
+
+function updateSlidePosition() {
+    // Cambia la posición del carrusel según el índice actual
+    carouselSlide.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+function moveSlide(direction) {
+    // Cambia el índice de la imagen actual
+    currentIndex += direction;
+
+    // Si es el inicio, salta al final; si es el final, salta al inicio
+    if (currentIndex < 0) {
+        currentIndex = totalImages - 1; // Ajusta para que se muestre la última imagen
+    } else if (currentIndex >= totalImages) {
+        currentIndex = 0; // Ajusta para que se muestre la primera imagen
     }
 
-    function moveSlide(direction) {
-        // Cambia el índice de la imagen actual
-        currentIndex += direction;
+    // Actualiza la posición del carrusel
+    updateSlidePosition();
 
-        // Manejo de límites: vuelve al inicio o final según corresponda
-        if (currentIndex < 0) {
-            currentIndex = totalImages - 1; // Última imagen
-        } else if (currentIndex >= totalImages) {
-            currentIndex = 0; // Primera imagen
-        }
+    // Reinicia el temporizador automático
+    restartAutoSlide();
+}
 
-        // Actualiza la posición del carrusel
-        updateSlidePosition();
-    }
+function autoSlide() {
+    moveSlide(1); // Mueve a la siguiente imagen automáticamente
+}
 
-    // Reproducción automática del carrusel cada 2 segundos
-    setInterval(() => {
-        moveSlide(1); // Mueve a la siguiente imagen automáticamente
-    }, 5000);
+function restartAutoSlide() {
+    clearInterval(autoSlideInterval); // Detiene el intervalo actual
+    autoSlideInterval = setInterval(autoSlide, 5000); // Configura uno nuevo
+}
+
 </script>
 
 </body>
